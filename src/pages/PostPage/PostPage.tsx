@@ -15,8 +15,8 @@ export default function PostPage() {
   );
 }
 
-PostPage.navigationOptions = {
-  headerTitle: 'Пост №42'
+PostPage.options = {
+  headerTitle: 'Пост №42',
 }
 
 const styles = StyleSheet.create({

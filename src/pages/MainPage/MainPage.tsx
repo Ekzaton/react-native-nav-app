@@ -10,12 +10,12 @@ export default function MainPage() {
   return (
       <View style={styles.center}>
         <Text>Main Screen</Text>
-        <Button title='Go to Post' onPress={() => navigation.navigate('Post', undefined)} />
+        <Button title='Go to Post' onPress={() => navigation.navigate('Post')} />
       </View>
   );
 }
 
-MainPage.navigationOptions = {
+MainPage.options = {
   headerTitle: 'Мой блог'
 }
 
