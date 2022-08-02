@@ -1,8 +1,8 @@
 import { hideAsync, preventAutoHideAsync } from 'expo-splash-screen';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useAssetsLoading(fn: () => void) {
-  const [appIsReady, setAppIsReady] = useState(false);
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
   useEffect(() => {
     async function prepare() {
@@ -12,16 +12,13 @@ export default function useAssetsLoading(fn: () => void) {
       } catch (e) {
         console.warn(e);
       } finally {
-        setAppIsReady(true);
+        setIsLoadingComplete(true);
+        await hideAsync();
       }
     }
 
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) await hideAsync();
-  }, [appIsReady])
-
-  return { appIsReady, onLayoutRootView };
+  return isLoadingComplete;
 }

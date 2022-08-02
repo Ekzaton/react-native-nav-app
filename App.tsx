@@ -1,16 +1,11 @@
-import { Text, View } from 'react-native';
-
 import bootstrap from './src/bootstrap';
 import useAssetsLoading from './src/hooks/useAssetsLoading';
+import Navigator from './src/navigation/Navigator';
 
 export default function App() {
-  const { appIsReady, onLayoutRootView } = useAssetsLoading(bootstrap);
+  const isLoadingComplete = useAssetsLoading(bootstrap);
 
-  if (!appIsReady) return null
+  if (!isLoadingComplete) return null;
 
-  return (
-    <View onLayout={onLayoutRootView}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
+  return <Navigator />;
 }
