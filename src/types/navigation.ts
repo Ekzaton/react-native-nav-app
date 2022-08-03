@@ -1,4 +1,7 @@
 export type StackParamsList = {
   Main: undefined;
-  Post: undefined;
+  Post: {
+    id: string;
+    date: string;
+  };
 };

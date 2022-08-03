@@ -20,8 +20,20 @@ export default function Navigator() {
   return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen name='Main' component={MainPage} options={MainPage.options} />
-          <Stack.Screen name='Post' component={PostPage} options={PostPage.options} />
+          <Stack.Screen
+              name='Main'
+              component={MainPage}
+              options={{
+                headerTitle: 'Мой блог'
+              }}
+          />
+          <Stack.Screen
+              name='Post'
+              component={PostPage}
+              options={({ route }) => ({
+                headerTitle: `Пост №${route.params.id} от ${route.params.date}`
+              })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
   );

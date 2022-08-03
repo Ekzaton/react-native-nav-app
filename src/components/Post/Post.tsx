@@ -1,20 +1,22 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { PostProps } from './Post.props';
 
 export default function Post(props: PostProps) {
-  const { content } = props;
+  const { content, onOpen } = props;
 
   return (
-      <View style={styles.post}>
-        <ImageBackground style={styles.image} source={{ uri: content.img }}>
-          <View style={styles.textWrap}>
-            <Text style={styles.title}>
-              {new Date(content.date).toLocaleDateString()}
-            </Text>
-          </View>
-        </ImageBackground>
-      </View>
+      <TouchableOpacity activeOpacity={0.7} onPress={() => onOpen(content)}>
+        <View style={styles.post}>
+          <ImageBackground style={styles.image} source={{ uri: content.img }}>
+            <View style={styles.textWrap}>
+              <Text style={styles.title}>
+                {new Date(content.date).toLocaleDateString()}
+              </Text>
+            </View>
+          </ImageBackground>
+        </View>
+      </TouchableOpacity>
   );
 }
 
