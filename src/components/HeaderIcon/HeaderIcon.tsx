@@ -8,7 +8,7 @@ export default function HeaderIcon(props: HeaderButtonProps) {
   const {
     title = '',
     iconSize = 24,
-    color = Platform.OS === 'android' ? '#FFF' : Theme.MAIN_COlOR,
+    color = Platform.OS === 'android' ? '#FFF' : Theme.MAIN_COLOR,
     IconComponent = Ionicons,
     ...restProps
   } = props;

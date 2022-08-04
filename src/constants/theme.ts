@@ -1,4 +1,4 @@
 export const enum Theme {
-  MAIN_COlOR = '#303F9F',
-  DANGER_COlOR = '#D81B60'
+  MAIN_COLOR = '#303F9F',
+  DANGER_COLOR = '#D81B60'
 }

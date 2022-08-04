@@ -3,10 +3,10 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 
 import { Theme } from '../../constants/theme';
 import { DATA } from '../../data';
-import { StackParamsList } from '../../types/navigation';
+import { MainStackParamsList } from '../../types/navigation';
 
 export default function PostPage() {
-  const { params } = useRoute<RouteProp<StackParamsList, 'Post'>>();
+  const { params } = useRoute<RouteProp<MainStackParamsList, 'Post'>>();
 
   const post = DATA.find((post) => post.id === params.id);
 
@@ -34,7 +34,7 @@ export default function PostPage() {
         <View style={styles.titleWrap}>
           <Text style={styles.title}>{post!.text}</Text>
         </View>
-        <Button title='Удалить' color={Theme.DANGER_COlOR} onPress={removeHandler} />
+        <Button title='Удалить' color={Theme.DANGER_COLOR} onPress={removeHandler} />
       </ScrollView>
   );
 }
