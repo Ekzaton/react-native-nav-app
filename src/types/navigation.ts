@@ -3,5 +3,6 @@ export type StackParamsList = {
   Post: {
     id: string;
     date: string;
+    booked: boolean;
   };
 };

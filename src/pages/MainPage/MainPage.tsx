@@ -19,7 +19,8 @@ export default function MainPage() {
                   content={item}
                   onOpen={() => navigate('Post', {
                     id: item.id,
-                    date: new Date(item.date).toLocaleDateString()
+                    date: new Date(item.date).toLocaleDateString(),
+                    booked: item.booked
                   })}
               />
             )}
