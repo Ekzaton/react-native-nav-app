@@ -14,7 +14,7 @@ export default function MainPage() {
         <FlatList
             keyExtractor={post => post.id.toString()}
             data={DATA}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <Post
                   content={item}
                   onOpen={() => navigate('Post', {

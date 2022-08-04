@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HeaderIcon from '../components/HeaderIcon/HeaderIcon';
 import { Theme } from '../constants/theme';
+import BookmarksPage from '../pages/BookmarksPage/BookmarksPage';
 import MainPage from '../pages/MainPage/MainPage';
 import PostPage from '../pages/PostPage/PostPage';
 import { BookmarksStackParamsList, MainStackParamsList } from '../types/navigation';
@@ -82,9 +83,18 @@ function BookmarksTab() {
       >
         <BookmarksStack.Screen
             name='Bookmarks'
-            component={MainPage}
+            component={BookmarksPage}
             options={{
-              headerTitle: 'Закладки'
+              headerTitle: 'Закладки',
+              headerLeft: () => (
+                  <HeaderButtons HeaderButtonComponent={HeaderIcon}>
+                    <Item
+                        title='Открыть меню'
+                        iconName='menu'
+                        onPress={() => console.log('Open menu')}
+                    />
+                  </HeaderButtons>
+              )
             }}
         />
         <BookmarksStack.Screen
@@ -117,16 +127,18 @@ export default function Navigator() {
             }}
         >
           <Tabs.Screen
-              name='Лента'
+              name='MainTab'
               component={MainTab}
               options={{
+                tabBarLabel: 'Лента',
                 tabBarIcon: ({color}) => <Ionicons name='albums' size={25} color={color} />
               }}
           />
           <Tabs.Screen
-              name='Закладки'
+              name='BookmarksTab'
               component={BookmarksTab}
               options={{
+                tabBarLabel: 'Закладки',
                 tabBarIcon: ({color}) => <Ionicons name='star-sharp' size={25} color={color} />
               }}
           />
