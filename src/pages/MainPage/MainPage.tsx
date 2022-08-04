@@ -7,7 +7,7 @@ import { DATA } from '../../data';
 import { StackParamsList } from '../../types/navigation';
 
 export default function MainPage() {
-  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
+  const { navigate } = useNavigation<StackNavigationProp<StackParamsList>>();
 
   return (
       <View style={styles.wrapper}>
@@ -17,7 +17,7 @@ export default function MainPage() {
             renderItem={({item}) => (
               <Post
                   content={item}
-                  onOpen={() => navigation.navigate('Post', {
+                  onOpen={() => navigate('Post', {
                     id: item.id,
                     date: new Date(item.date).toLocaleDateString()
                   })}

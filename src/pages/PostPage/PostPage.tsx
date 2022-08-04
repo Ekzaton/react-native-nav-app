@@ -1,25 +1,53 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRoute, RouteProp } from '@react-navigation/native';
 
+import { Theme } from '../../constants/theme';
+import { DATA } from '../../data';
 import { StackParamsList } from '../../types/navigation';
 
 export default function PostPage() {
-  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
   const { params } = useRoute<RouteProp<StackParamsList, 'Post'>>();
 
+  const post = DATA.find((post) => post.id === params.id);
+
+  const removeHandler = () => {
+    Alert.alert(
+        'Удаление поста',
+        'Вы уверены что хотите удалить пост?',
+        [
+          {
+            text: 'Отменить',
+            style: 'cancel'
+          },
+          {
+            text: 'Удалить',
+            onPress: () => {},
+            style: 'destructive'
+          }
+        ]
+    );
+  }
+
   return (
-      <View style={styles.center}>
-        <Text>{`Пост №${params.id} от ${params.date}`}</Text>
-        <Button title='Go Back' onPress={() => navigation.goBack()} />
-      </View>
+      <ScrollView>
+        <Image style={styles.image} source={{ uri: post!.img }} />
+        <View style={styles.titleWrap}>
+          <Text style={styles.title}>{post!.text}</Text>
+        </View>
+        <Button title='Удалить' color={Theme.DANGER_COlOR} onPress={removeHandler} />
+      </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+  image: {
+    width: '100%',
+    height: 200
+  },
+  titleWrap: {
+    padding: 10
+  },
+  title: {
+    fontFamily: 'open-sans-regular'
   }
 })
