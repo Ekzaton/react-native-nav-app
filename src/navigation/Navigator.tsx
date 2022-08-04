@@ -18,16 +18,16 @@ const MainStack = createStackNavigator<MainStackParamsList>();
 const MaterialTabs = createMaterialBottomTabNavigator();
 const Tabs = createBottomTabNavigator();
 
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: Platform.OS === 'android' ? Theme.MAIN_COLOR : '#FFF',
+  },
+  headerTintColor: Platform.OS === 'android' ? '#FFF' : Theme.MAIN_COLOR
+}
+
 function MainTab() {
   return (
-      <MainStack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: Platform.OS === 'android' ? Theme.MAIN_COLOR : '#FFF',
-            },
-            headerTintColor: Platform.OS === 'android' ? '#FFF' : Theme.MAIN_COLOR
-          }}
-      >
+      <MainStack.Navigator screenOptions={screenOptions}>
         <MainStack.Screen
             name='Main'
             component={MainPage}
@@ -75,14 +75,7 @@ function MainTab() {
 
 function BookmarksTab() {
   return (
-      <BookmarksStack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: Platform.OS === 'android' ? Theme.MAIN_COLOR : '#FFF',
-            },
-            headerTintColor: Platform.OS === 'android' ? '#FFF' : Theme.MAIN_COLOR
-          }}
-      >
+      <BookmarksStack.Navigator screenOptions={screenOptions}>
         <BookmarksStack.Screen
             name='Bookmarks'
             component={BookmarksPage}

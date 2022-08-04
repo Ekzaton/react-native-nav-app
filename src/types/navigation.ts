@@ -1,17 +1,15 @@
+type PostParams = {
+  id: string;
+  date: string;
+  booked: boolean;
+}
+
 export type MainStackParamsList = {
   Main: undefined;
-  Post: {
-    id: string;
-    date: string;
-    booked: boolean;
-  };
+  Post: PostParams;
 };
 
 export type BookmarksStackParamsList = {
   Bookmarks: undefined;
-  Post: {
-    id: string;
-    date: string;
-    booked: boolean;
-  };
+  Post: PostParams;
 };
