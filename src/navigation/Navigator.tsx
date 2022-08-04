@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -12,8 +13,9 @@ import MainPage from '../pages/MainPage/MainPage';
 import PostPage from '../pages/PostPage/PostPage';
 import { BookmarksStackParamsList, MainStackParamsList } from '../types/navigation';
 
-const MainStack = createStackNavigator<MainStackParamsList>();
 const BookmarksStack = createStackNavigator<BookmarksStackParamsList>();
+const MainStack = createStackNavigator<MainStackParamsList>();
+const MaterialTabs = createMaterialBottomTabNavigator();
 const Tabs = createBottomTabNavigator();
 
 function MainTab() {
@@ -117,32 +119,54 @@ function BookmarksTab() {
   );
 }
 
+
+const tabsContent = (
+    <>
+      <MaterialTabs.Screen
+          name='MainTab'
+          component={MainTab}
+          options={{
+            tabBarLabel: 'Лента',
+            tabBarIcon: ({ color }) => <Ionicons name='albums' size={25} color={color} />
+          }}
+      />
+      <MaterialTabs.Screen
+          name='BookmarksTab'
+          component={BookmarksTab}
+          options={{
+            tabBarLabel: 'Закладки',
+            tabBarIcon: ({ color }) => <Ionicons name='star-sharp' size={25} color={color} />
+          }}
+      />
+    </>
+);
+
 export default function Navigator() {
-  return (
-      <NavigationContainer>
-        <Tabs.Navigator
-            screenOptions={{
-              headerShown: false,
-              tabBarActiveTintColor: Theme.MAIN_COLOR
-            }}
-        >
-          <Tabs.Screen
-              name='MainTab'
-              component={MainTab}
-              options={{
-                tabBarLabel: 'Лента',
-                tabBarIcon: ({color}) => <Ionicons name='albums' size={25} color={color} />
+  if (Platform.OS === 'android') {
+    return (
+        <NavigationContainer>
+          <MaterialTabs.Navigator
+              barStyle={{
+                backgroundColor: Theme.MAIN_COLOR
               }}
-          />
-          <Tabs.Screen
-              name='BookmarksTab'
-              component={BookmarksTab}
-              options={{
-                tabBarLabel: 'Закладки',
-                tabBarIcon: ({color}) => <Ionicons name='star-sharp' size={25} color={color} />
+              shifting
+          >
+            {tabsContent}
+          </MaterialTabs.Navigator>
+        </NavigationContainer>
+    );
+  } else {
+    return (
+        <NavigationContainer>
+          <Tabs.Navigator
+              screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: Theme.MAIN_COLOR
               }}
-          />
-        </Tabs.Navigator>
-      </NavigationContainer>
-  );
+          >
+            {tabsContent}
+          </Tabs.Navigator>
+        </NavigationContainer>
+    );
+  }
 }
