@@ -1,6 +1,6 @@
 import { Post } from '../../types/common';
 
-export type PostProps = {
+export type PostsItemProps = {
   content: Post;
   onOpen: (content: Post) => void;
 }

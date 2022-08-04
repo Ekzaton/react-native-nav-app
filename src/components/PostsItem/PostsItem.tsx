@@ -1,8 +1,8 @@
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { PostProps } from './Post.props';
+import { PostsItemProps } from './PostsItem.props';
 
-export default function Post(props: PostProps) {
+export default function PostsItem(props: PostsItemProps) {
   const { content, onOpen } = props;
 
   return (
