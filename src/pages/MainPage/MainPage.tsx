@@ -3,10 +3,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import PostsList from '../../components/PostsList/PostsList';
 import { DATA } from '../../data';
-import { MainStackParamsList } from '../../types/navigation';
+import { StackParamsList } from '../../types/navigation';
 
 export default function MainPage() {
-  const navigation = useNavigation<StackNavigationProp<MainStackParamsList>>();
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
 
   return <PostsList data={DATA} navigation={navigation} />;
 }

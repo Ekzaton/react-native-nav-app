@@ -3,10 +3,10 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 
 import { Theme } from '../../constants/theme';
 import { DATA } from '../../data';
-import { MainStackParamsList } from '../../types/navigation';
+import { StackParamsList } from '../../types/navigation';
 
 export default function PostPage() {
-  const { params } = useRoute<RouteProp<MainStackParamsList, 'Post'>>();
+  const { params } = useRoute<RouteProp<StackParamsList, 'Post'>>();
 
   const post = DATA.find((post) => post.id === params.id);
 

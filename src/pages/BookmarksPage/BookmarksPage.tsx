@@ -3,10 +3,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import PostsList from '../../components/PostsList/PostsList';
 import { DATA } from '../../data';
-import { BookmarksStackParamsList } from '../../types/navigation';
+import { StackParamsList } from '../../types/navigation';
 
 export default function BookmarksPage() {
-  const navigation = useNavigation<StackNavigationProp<BookmarksStackParamsList>>();
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
 
   return <PostsList data={DATA.filter((post) => post.booked)} navigation={navigation} />;
 }
