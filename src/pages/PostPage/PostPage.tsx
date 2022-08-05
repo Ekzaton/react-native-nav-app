@@ -1,14 +1,21 @@
 import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Theme } from '../../constants/theme';
-import { DATA } from '../../data';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { removePost } from '../../store/slices/posts';
 import { StackParamsList } from '../../types/navigation';
 
 export default function PostPage() {
+  const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
   const { params } = useRoute<RouteProp<StackParamsList, 'Post'>>();
+  const { id } = params;
 
-  const post = DATA.find((post) => post.id === params.id);
+  const dispatch = useAppDispatch()
+
+  const postsAll = useAppSelector((state) => state.posts.postsAll);
+  const post = postsAll.find((post) => post.id === id);
 
   const removeHandler = () => {
     Alert.alert(
@@ -21,12 +28,18 @@ export default function PostPage() {
           },
           {
             text: 'Удалить',
-            onPress: () => {},
+            onPress: () => {
+              navigation.push('Main');
+              navigation.push('Bookmarks');
+              dispatch(removePost(id));
+            },
             style: 'destructive'
           }
         ]
     );
   }
+
+  if (!post) return null;
 
   return (
       <ScrollView>

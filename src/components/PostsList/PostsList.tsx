@@ -5,13 +5,13 @@ import PostsItem from '../PostsItem/PostsItem';
 import { PostsListProps } from './PostsList.props';
 
 export default function PostsList(props: PostsListProps) {
-  const { data, navigation } = props;
+  const { posts, navigation } = props;
 
   return (
       <View style={styles.wrapper}>
         <FlatList
             keyExtractor={post => post.id.toString()}
-            data={data}
+            data={posts}
             renderItem={({ item }) => (
                 <PostsItem
                     content={item}

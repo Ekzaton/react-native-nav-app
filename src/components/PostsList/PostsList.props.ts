@@ -4,6 +4,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Post } from '../../types/common';
 
 export type PostsListProps = {
-  data: Post[];
+  posts: Post[];
   navigation: StackNavigationProp<ParamListBase>;
 }
