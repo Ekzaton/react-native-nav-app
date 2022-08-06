@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { Button, Image, Keyboard, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { Button, Keyboard, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+import PhotoPicker from '../../components/PhotoPicker/PhotoPicker';
 import { Theme } from '../../constants/theme';
 import { useAppDispatch } from '../../store';
 import { addPost } from '../../store/slices/posts';
@@ -11,17 +12,19 @@ import { StackParamsList } from '../../types/navigation';
 export default function CreatePage() {
   const navigation = useNavigation<StackNavigationProp<StackParamsList>>();
 
-  const [text, setText] = useState('');
-
   const dispatch = useAppDispatch();
 
-  const img = 'https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg';
+  const [text, setText] = useState('');
+
+  const imgRef = useRef('');
+
+  const photoPickHandler = (uri: string) => imgRef.current = uri;
 
   const createPostHandler = () => {
     const post = {
       id: Date.now().toString(),
       date: new Date().toJSON(),
-      img,
+      img: imgRef.current,
       text,
       booked: false
     }
@@ -33,10 +36,7 @@ export default function CreatePage() {
       <ScrollView>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.wrapper}>
-            <Image
-                style={{ width: '100%', height: 200, marginBottom: 10 }}
-                source={{ uri: img }}
-            />
+            <PhotoPicker onPick={photoPickHandler} />
             <TextInput
                 style={styles.textarea}
                 placeholder='Введите текст поста...'

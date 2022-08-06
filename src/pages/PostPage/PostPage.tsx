@@ -42,7 +42,7 @@ export default function PostPage() {
   if (!post) return null;
 
   return (
-      <ScrollView>
+      <ScrollView style={styles.wrap}>
         <Image style={styles.image} source={{ uri: post!.img }} />
         <View style={styles.titleWrap}>
           <Text style={styles.title}>{post!.text}</Text>
@@ -53,6 +53,9 @@ export default function PostPage() {
 }
 
 const styles = StyleSheet.create({
+  wrap: {
+    padding: 10
+  },
   image: {
     width: '100%',
     height: 200
