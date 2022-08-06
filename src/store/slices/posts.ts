@@ -1,6 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import API from '../../helpers/API';
 import { Post } from '../../types/common';
+
+export const loadPosts = createAsyncThunk(
+    'posts/loadPosts',
+    async () => await API.getPosts()
+)
 
 const initialState = {
   postsAll: [] as Post[],
@@ -11,10 +17,6 @@ export const todo = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    loadPosts: (state: PostsState, action: PayloadAction<Post[]>) => {
-      state.postsAll = action.payload;
-      state.postsBooked =  action.payload.filter((post) => post.booked);
-    },
     toggleBooked: (state: PostsState, action: PayloadAction<string>) => {
       state.postsAll = state.postsAll.map((post) => {
         if (post.id === action.payload) post.booked = !post.booked;
@@ -29,10 +31,18 @@ export const todo = createSlice({
       state.postsAll = state.postsAll.filter((post) => post.id !== action.payload);
       state.postsBooked = state.postsBooked.filter((post) => post.id !== action.payload);
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+        loadPosts.fulfilled,
+        (state: PostsState, action: PayloadAction<Post[]>) => {
+          state.postsAll = action.payload;
+          state.postsBooked = action.payload.filter((post) => post.booked);
+        })
   }
 });
 
 type PostsState = typeof initialState;
 
-export const { loadPosts, toggleBooked, addPost, removePost } = todo.actions;
+export const { toggleBooked, addPost, removePost } = todo.actions;
 export default todo.reducer;
