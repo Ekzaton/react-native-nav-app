@@ -52,6 +52,7 @@ export const removePost = createAsyncThunk(
 const initialState = {
   postsAll: [] as Post[],
   postsBooked: [] as Post[],
+  loading: false
 };
 
 export const todo = createSlice({
@@ -60,8 +61,15 @@ export const todo = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(
+        loadPosts.pending,
+        (state: PostsState) => {
+          state.loading = true;
+        }
+    )
+    builder.addCase(
         loadPosts.fulfilled,
         (state: PostsState, action: PayloadAction<Post[]>) => {
+          state.loading = false;
           state.postsAll = action.payload;
           state.postsBooked = action.payload.filter((post) => post.booked);
         }
