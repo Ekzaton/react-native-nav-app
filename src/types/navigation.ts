@@ -2,7 +2,7 @@ export type StackParamsList = {
   Bookmarks: undefined;
   Main: undefined;
   Post: {
-    id: string;
+    id: number;
     date: string;
     booked: boolean;
   }

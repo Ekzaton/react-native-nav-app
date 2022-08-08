@@ -22,11 +22,10 @@ export default function CreatePage() {
 
   const createPostHandler = () => {
     const post = {
-      id: Date.now().toString(),
-      date: new Date().toJSON(),
-      img: imgRef.current,
       text,
-      booked: false
+      date: new Date().toJSON(),
+      booked: false,
+      img: imgRef.current,
     }
     dispatch(addPost(post));
     navigation.navigate('Main');

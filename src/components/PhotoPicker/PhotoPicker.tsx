@@ -1,14 +1,19 @@
-import { requestCameraPermissionsAsync, launchCameraAsync } from 'expo-image-picker';
+import {
+  launchCameraAsync,
+  requestCameraPermissionsAsync,
+  requestMediaLibraryPermissionsAsync,
+  PermissionResponse
+} from 'expo-image-picker';
 import { useState } from 'react';
 import { Alert, Button, Image, StyleSheet, View } from 'react-native';
 
-import { PhotoPickerProps } from "./PhotoPicker.props";
+import { PhotoPickerProps } from './PhotoPicker.props';
 
-async function askForCameraPermissions() {
-  const { status } = await requestCameraPermissionsAsync();
+async function askForPermissions(fn: () => Promise<PermissionResponse>) {
+  const { status } = await fn();
 
   if (status !== 'granted') {
-    Alert.alert('Ошибка', 'Нет разрешения на использование камеры');
+    Alert.alert('Ошибка', 'Нет разрешения на использование!');
 
     return false;
   }
@@ -22,9 +27,10 @@ export default function PhotoPicker(props: PhotoPickerProps) {
   const [image, setImage] = useState<string | null>(null);
 
   const takePhoto = async () => {
-    const permissions = await askForCameraPermissions();
+    const cameraPermissions = await askForPermissions(requestCameraPermissionsAsync);
+    const mediaLibraryPermissions = await askForPermissions(requestMediaLibraryPermissionsAsync);
 
-    if (!permissions) return;
+    if (!cameraPermissions || !mediaLibraryPermissions) return;
 
     const img = await launchCameraAsync({
       quality: 0.7,

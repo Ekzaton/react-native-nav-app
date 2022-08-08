@@ -15,7 +15,7 @@ export default function MainPage() {
   const postsAll = useAppSelector(state => state.posts.postsAll);
 
   useEffect(() => {
-    dispatch(loadPosts);
+    dispatch(loadPosts());
   }, [])
 
   return <PostsList posts={postsAll} navigation={navigation} />;
