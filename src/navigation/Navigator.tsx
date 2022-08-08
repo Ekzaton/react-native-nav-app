@@ -239,20 +239,29 @@ function DrawerNavigator() {
             component={BlogTabsNavigator}
             options={{
               title: 'Мой блог',
+              drawerIcon: ({ color }) => (
+                  <Ionicons name='list-circle-outline' size={25} color={color} />
+              )
             }}
         />
         <Drawer.Screen
             name='CreateNavigator'
             component={CreateStackNavigator}
             options={{
-              title: 'Новый пост'
+              title: 'Новый пост',
+              drawerIcon: ({ color }) => (
+                  <Ionicons name='add-circle-outline' size={25} color={color} />
+              )
             }}
         />
         <Drawer.Screen
             name='AboutNavigator'
             component={AboutStackNavigator}
             options={{
-              title: 'О приложении'
+              title: 'О приложении',
+              drawerIcon: ({ color }) => (
+                  <Ionicons name='information-circle-outline' size={25} color={color} />
+              )
             }}
         />
       </Drawer.Navigator>
