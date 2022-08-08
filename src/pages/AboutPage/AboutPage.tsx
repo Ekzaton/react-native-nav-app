@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function AboutPage() {
   return (
       <View style={styles.center}>
-        <Text>Это лучшее приложение для личных заметок</Text>
-        <Text>Весрия: <Text style={styles.version}>1.0.0</Text></Text>
+        <Text style={styles.bold}>Лучшее приложение для личных заметок!</Text>
+        <Text>Верcия: <Text style={styles.bold}>1.0.0</Text></Text>
       </View>
   );
 }
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  version: {
+  bold: {
     fontFamily: 'open-sans-bold'
   }
 })

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -16,6 +17,13 @@ export default function PostPage() {
 
   const postsAll = useAppSelector((state) => state.posts.postsAll);
   const post = postsAll.find((post) => post.id === id);
+
+  const postsBooked = useAppSelector((state) => state.posts.postsBooked);
+  const booked = postsBooked.some(post => post.id === id);
+
+  useEffect(() => {
+    navigation.setParams({ booked });
+  }, [booked])
 
   const removeHandler = () => {
     Alert.alert(

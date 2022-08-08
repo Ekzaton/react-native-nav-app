@@ -1,6 +1,6 @@
 import { openDatabase } from 'expo-sqlite';
 
-import { NewPost, Post } from '../types/common';
+import { PostData, Post } from '../types/common';
 
 const db = openDatabase('posts.db');
 
@@ -35,16 +35,46 @@ export default abstract class API {
     })
   }
 
-  static createPost(post: NewPost) {
+  static createPost(postData: PostData) {
     return new Promise<number>((resolve, reject) => {
       db.transaction(tx => {
         tx.executeSql(
             'INSERT INTO posts (text, date, booked, img) VALUES (?, ?, ?, ?)',
-            [post.text, post.date, +post.booked, post.img],
+            [postData.text, postData.date, +postData.booked, postData.img],
             (_, result) => {
               if (result.insertId) resolve(result.insertId);
             },
             (_, error ) => {
+              throw reject(error);
+            }
+        )
+      })
+    })
+  }
+
+  static updatePost(post: Post) {
+    return new Promise((resolve, reject) => {
+      db.transaction(tx => {
+        tx.executeSql(
+            'UPDATE posts SET booked = ? WHERE id = ?',
+            [post.booked ? 0 : 1, post.id],
+            resolve,
+            (_, error) => {
+              throw reject(error);
+            }
+        )
+      })
+    })
+  }
+
+  static deletePost(id: number) {
+    return new Promise((resolve, reject) => {
+      db.transaction(tx => {
+        tx.executeSql(
+            'DELETE FROM posts WHERE id = ?',
+            [id],
+            resolve,
+            (_, error) => {
               throw reject(error);
             }
         )

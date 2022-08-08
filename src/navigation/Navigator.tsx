@@ -14,7 +14,7 @@ import BookmarksPage from '../pages/BookmarksPage/BookmarksPage';
 import CreatePage from '../pages/CreatePage/CreatePage';
 import MainPage from '../pages/MainPage/MainPage';
 import PostPage from '../pages/PostPage/PostPage';
-import { useAppDispatch } from '../store';
+import { useAppDispatch, useAppSelector } from '../store';
 import { toggleBooked } from '../store/slices/posts';
 import { StackParamsList } from '../types/navigation';
 
@@ -35,6 +35,7 @@ const screenOptions = {
 
 function MainStackNavigator() {
   const dispatch = useAppDispatch();
+  const postsAll = useAppSelector((state) => state.posts.postsAll);
 
   return (
       <MainStack.Navigator screenOptions={screenOptions}>
@@ -66,7 +67,7 @@ function MainStackNavigator() {
         <MainStack.Screen
             name='Post'
             component={PostPage}
-            options={({ navigation, route }) => ({
+            options={({ route }) => ({
               headerTitle: `Пост №${route.params.id} от ${route.params.date}`,
               headerRight: () => (
                   <HeaderButtons HeaderButtonComponent={HeaderIcon}>
@@ -74,8 +75,9 @@ function MainStackNavigator() {
                         title={route.params.booked ? 'Убрать из закладок' : 'Дообавить в закладки'}
                         iconName={route.params.booked ? 'star-sharp' : 'star-outline'}
                         onPress={() => {
-                          navigation.setParams({ booked: !route.params.booked });
-                          dispatch(toggleBooked(route.params.id));
+                          const post = postsAll.find((post) => post.id === route.params.id);
+
+                          dispatch(toggleBooked(post!));
                         }}
                     />
                   </HeaderButtons>
@@ -88,6 +90,7 @@ function MainStackNavigator() {
 
 function BookmarksStackNavigator() {
   const dispatch = useAppDispatch();
+  const postsAll = useAppSelector((state) => state.posts.postsAll);
 
   return (
       <BookmarksStack.Navigator screenOptions={screenOptions}>
@@ -110,7 +113,7 @@ function BookmarksStackNavigator() {
         <BookmarksStack.Screen
             name='Post'
             component={PostPage}
-            options={({ navigation, route }) => ({
+            options={({ route }) => ({
               headerTitle: `Пост №${route.params.id} от ${route.params.date}`,
               headerRight: () => (
                   <HeaderButtons HeaderButtonComponent={HeaderIcon}>
@@ -118,8 +121,9 @@ function BookmarksStackNavigator() {
                         title={route.params.booked ? 'Убрать из закладок' : 'Дообавить в закладки'}
                         iconName={route.params.booked ? 'star-sharp' : 'star-outline'}
                         onPress={() => {
-                          navigation.setParams({ booked: !route.params.booked });
-                          dispatch(toggleBooked(route.params.id));
+                          const post = postsAll.find((post) => post.id === route.params.id);
+
+                          dispatch(toggleBooked(post!));
                         }}
                     />
                   </HeaderButtons>

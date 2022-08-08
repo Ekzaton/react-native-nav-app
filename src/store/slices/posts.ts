@@ -2,34 +2,52 @@ import { documentDirectory, moveAsync } from 'expo-file-system';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import API from '../../helpers/API';
-import { NewPost, Post } from '../../types/common';
+import { PostData, Post } from '../../types/common';
 
 export const loadPosts = createAsyncThunk(
     'posts/loadPosts',
     async () => await API.getPosts()
-)
+);
 
 export const addPost = createAsyncThunk(
     'posts/addPost',
-    async (post: NewPost) => {
-      const fileName = post.img.split('/').pop();
+    async (postData: PostData) => {
+      const fileName = postData.img.split('/').pop();
       const newPath = documentDirectory && fileName ? documentDirectory + fileName : '';
 
       try {
         await moveAsync({
-          from: post.img,
+          from: postData.img,
           to: newPath
         });
       } catch (e) {
        console.log(e);
       }
 
-      const newPost = { ...post, img: newPath }
-      const id = await API.createPost(newPost);
+      postData = { ...postData, img: newPath }
+      const id = await API.createPost(postData);
 
-      return { ...newPost, id } as Post;
+      return { ...postData, id } as Post;
     }
-)
+);
+
+export const toggleBooked = createAsyncThunk(
+    'posts/toggleBooked',
+    async (post: Post) => {
+      await API.updatePost(post);
+
+      return post.id;
+    }
+);
+
+export const removePost = createAsyncThunk(
+    'posts/removePost',
+    async (id: number) => {
+      await API.deletePost(id);
+
+      return id;
+    }
+);
 
 const initialState = {
   postsAll: [] as Post[],
@@ -39,19 +57,7 @@ const initialState = {
 export const todo = createSlice({
   name: 'posts',
   initialState,
-  reducers: {
-    toggleBooked: (state: PostsState, action: PayloadAction<number>) => {
-      state.postsAll = state.postsAll.map((post) => {
-        if (post.id === action.payload) post.booked = !post.booked;
-        return post;
-      });
-      state.postsBooked =  state.postsAll.filter((post) => post.booked);
-    },
-    removePost: (state: PostsState, action: PayloadAction<number>) => {
-      state.postsAll = state.postsAll.filter((post) => post.id !== action.payload);
-      state.postsBooked = state.postsBooked.filter((post) => post.id !== action.payload);
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(
         loadPosts.fulfilled,
@@ -66,10 +72,27 @@ export const todo = createSlice({
           state.postsAll = [action.payload, ...state.postsAll];
         }
     )
+    builder.addCase(
+        toggleBooked.fulfilled,
+        (state: PostsState, action: PayloadAction<number>) => {
+          state.postsAll = state.postsAll.map((post) => {
+            if (post.id === action.payload) post.booked = !post.booked;
+
+            return post;
+          });
+          state.postsBooked =  state.postsAll.filter((post) => post.booked);
+        }
+    )
+    builder.addCase(
+        removePost.fulfilled,
+        (state: PostsState, action: PayloadAction<number>) => {
+          state.postsAll = state.postsAll.filter((post) => post.id !== action.payload);
+          state.postsBooked = state.postsBooked.filter((post) => post.id !== action.payload);
+        }
+    )
   }
 });
 
 type PostsState = typeof initialState;
 
-export const { toggleBooked, removePost } = todo.actions;
 export default todo.reducer;
