@@ -77,7 +77,7 @@ export const todo = createSlice({
     builder.addCase(
         addPost.fulfilled,
         (state: PostsState, action: PayloadAction<Post>) => {
-          state.postsAll = [action.payload, ...state.postsAll];
+          state.postsAll = [...state.postsAll, action.payload];
         }
     )
     builder.addCase(
